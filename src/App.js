@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AB_GET_LIST } from "./config/ajax-path";
+import {  useLocation } from "react-router-dom";
+import Pagination from "./components/Pagination";
 
 // componentDidMount
 // componentDidUpdate
@@ -7,8 +9,9 @@ import { AB_GET_LIST } from "./config/ajax-path";
 
 export default function App() {
     const [data, setData] = useState({});
+    const location = useLocation();
+    const usp = new URLSearchParams(location.search);
 
-    
     const getPageData = async (event, gotoPage) => {
         if (event) {
             event.preventDefault();
@@ -29,42 +32,15 @@ export default function App() {
     // };
 
     useEffect(() => {
-        getPageData(null, 1);
-    }, []);
+        getPageData(null, +usp.get("page") || 1);
+    }, [location]);
 
     return (
         <div>
-            {/* 當有資料或不是0頁才顯示 */}
             {data && data.totalPages ? (
-                <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                        <li className="page-item">
-                            <a className="page-link" href="#/">
-                                Previous
-                            </a>
-                        </li>
-
-                        {Array(11)
-                            .fill(1)
-                            .map((v, i) =>
-                                data.page + i - 5 >= 1 &&
-                                data.page + i - 5 <= data.totalPages ? (
-                                    <li className={['page-item', data.page===(data.page + i - 5) ? 'active' : null].join(' ')} key={"pagi" + (+data.page + i - 5)}>
-                                        <a className="page-link" href="#/" onClick={(event)=>getPageData(event, data.page + i - 5)}>
-                                            {data.page + i - 5}
-                                        </a>
-                                    </li>
-                                ) : null
-                        )}
-                        
-                        <li className="page-item">
-                            <a className="page-link" href="#/">
-                                Next
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                <Pagination page={data.page} totalPages={data.totalPages} />
             ) : null}
+
             {console.log({ data })}
             <table className="table table-striped">
                 <thead>
