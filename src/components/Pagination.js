@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Pagination(props) {
-    const {page, totalPages} = props
+export default function Pagination({ page, totalPages }) {
     return (
         <nav aria-label="Page navigation example">
             <ul className="pagination">
