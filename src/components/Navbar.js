@@ -1,8 +1,11 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import themeContext, { themes } from "./ThemeContext";
+import authContext from "./AuthContext";
 
 export default function Navbar() {
-
+    const { name, bgc, fc, setTheme } = useContext(themeContext);
+    const { authorized, account, logout } = useContext(authContext);
 
     return (
         <nav className="navbar navbar-expand-lg bg-light">
@@ -27,10 +30,14 @@ export default function Navbar() {
                 >
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                        <Link className="nav-link" to="/">Home</Link>
+                            <Link className="nav-link" to="/">
+                                Home
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/login">login</Link>
+                            <Link className="nav-link" to="/login">
+                                login
+                            </Link>
                         </li>
                         <li className="nav-item dropdown">
                             <a
@@ -43,26 +50,42 @@ export default function Navbar() {
                                 Dropdown
                             </a>
                             <ul className="dropdown-menu">
-                                <li>
-                                    <a className="dropdown-item" href="#/">
-                                        Action
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="dropdown-item" href="#/">
-                                        Another action
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr className="dropdown-divider" />
-                                </li>
-                                <li>
-                                    <a className="dropdown-item" href="#/">
-                                        Something else here
-                                    </a>
-                                </li>
+                                {Object.keys(themes).map((n, i) => {
+                                    return (
+                                        <li
+                                            className="dropdown-item"
+                                            key={i}
+                                            onClick={() => setTheme(themes[n])}
+                                        >
+                                            <button className="btn">
+                                                {n +
+                                                    (n === name ? " used" : "")}
+                                            </button>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </li>
+                    </ul>
+                    <ul className="navbar-nav mb-2 mb-lg-0">
+                        {authorized ? (
+                            <>
+                                <li className="nav-item d-flex">
+                                    <p>歡迎您回來 {account}/</p>
+                                </li>
+                                <li>
+                                    <button className="btn btn-warning" onClick={()=>{logout()}}>
+                                        登出
+                                    </button>
+                                </li>
+                            </>
+                        ) : (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/login">
+                                    登入
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>

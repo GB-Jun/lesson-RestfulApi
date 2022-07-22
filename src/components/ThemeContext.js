@@ -2,27 +2,25 @@ import React from "react";
 
 export const themes = {
     dark: {
-        name: 'dark',
-        bgc: 'black',
-        fc: 'white',
+        name: "dark",
+        bgc: "black",
+        fc: "white",
     },
     light: {
-        name: 'light',
-        bgc: 'white',
-        fc: 'black',
+        name: "light",
+        bgc: "white",
+        fc: "black",
     },
     blue: {
-        name: 'blue',
-        bgc: 'blue',
-        fc: 'yellow',
-    }
+        name: "blue",
+        bgc: "blue",
+        fc: "yellow",
+    },
+};
 
-
-}
-
-
-
-
-const themeContext = React.createContext(themes.dark);
+const themeContext = React.createContext({
+    ...themes.dark,
+    setTheme: () => {},
+});
 
 export default themeContext;

@@ -1,4 +1,4 @@
-export const SERVER = 'http://localhost:3500'
+export const SERVER = 'http://192.168.24.200:3600'
 
 export const AB_GET_LIST = `${SERVER}/address-book/api`;
 
