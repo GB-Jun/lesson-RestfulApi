@@ -4,7 +4,7 @@ import themeContext, { themes } from "./ThemeContext";
 import authContext from "./AuthContext";
 
 export default function Navbar() {
-    const { name, bgc, fc, setTheme } = useContext(themeContext);
+    const { name, setTheme } = useContext(themeContext);
     const { authorized, account, logout } = useContext(authContext);
 
     return (
@@ -32,6 +32,11 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/">
                                 Home
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/list-auth">
+                                List-auth
                             </Link>
                         </li>
                         <li className="nav-item">
@@ -74,7 +79,12 @@ export default function Navbar() {
                                     <p>歡迎您回來 {account}/</p>
                                 </li>
                                 <li>
-                                    <button className="btn btn-warning" onClick={()=>{logout()}}>
+                                    <button
+                                        className="btn btn-warning"
+                                        onClick={() => {
+                                            logout();
+                                        }}
+                                    >
                                         登出
                                     </button>
                                 </li>

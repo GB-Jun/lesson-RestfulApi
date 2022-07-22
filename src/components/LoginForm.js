@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { LOGIN_API } from "./../config/ajax-path";
 import ThemeContext from "./ThemeContext";
+import AuthContext from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
     const [myForm, setMyForm] = useState({
@@ -9,6 +11,8 @@ export default function LoginForm() {
     });
 
     const themeContext = useContext(ThemeContext);
+    const { setAuth } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const changeFields = (event) => {
         const id = event.target.id;
@@ -36,6 +40,11 @@ export default function LoginForm() {
                 if (result.success) {
                     localStorage.setItem("auth", JSON.stringify(result.data));
                     // 這邊是把登入寫入localStorage
+                    setAuth({
+                        ...result.data,
+                        authorized: true,
+                    });
+                    navigate("/");
                 } else {
                     alert("帳密錯誤");
                 }
