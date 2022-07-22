@@ -40,8 +40,8 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/login">
-                                login
+                            <Link className="nav-link" to="/my-draw">
+                                My-draw
                             </Link>
                         </li>
                         <li className="nav-item dropdown">

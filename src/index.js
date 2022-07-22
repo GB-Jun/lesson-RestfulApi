@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import LoginForm from "./components/LoginForm";
 import AppAuth from "./AppAuth";
+import MyDraw from "./components/MyDraw";
 
 import Container from "./Container";
 
@@ -20,6 +21,7 @@ root.render(
                     <Route path="/" element={<App />} />
                     <Route path="/list-auth" element={<AppAuth />} />
                     <Route path="/login" element={<LoginForm />} />
+                    <Route path="/my-draw" element={<MyDraw />} />
                 </Routes>
             </Container>
         </BrowserRouter>
