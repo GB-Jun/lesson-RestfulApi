@@ -44,6 +44,11 @@ export default function Navbar() {
                                 My-draw
                             </Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/my-draw2">
+                                My-draw2
+                            </Link>
+                        </li>
                         <li className="nav-item dropdown">
                             <a
                                 className="nav-link dropdown-toggle"

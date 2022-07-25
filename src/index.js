@@ -10,6 +10,7 @@ import AppAuth from "./AppAuth";
 import MyDraw from "./components/MyDraw";
 
 import Container from "./Container";
+import MyDraw2 from "./components/MyDraw2";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -22,6 +23,7 @@ root.render(
                     <Route path="/list-auth" element={<AppAuth />} />
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/my-draw" element={<MyDraw />} />
+                    <Route path="/my-draw2" element={<MyDraw2 />} />
                 </Routes>
             </Container>
         </BrowserRouter>
