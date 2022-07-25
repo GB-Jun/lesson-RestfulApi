@@ -3,10 +3,12 @@ import { productData } from "./ProductData";
 
 export default function MyDraw2() {
     const realRef = useRef();
+    const shadowRef = useRef();
     const [cart, setCart] = useState([]);
+    const [cache, setCache] = useState({}); // 快取 image 物件
 
     const addItem = (id) => {
-        const item = productData.find((v) => v.id === id);
+        const item = productData.find((v) => v.id === id); // 找到第一個符合的項目
         if (item) {
             const newItem = { ...item, tid: Date.now() };
             setCart([...cart, newItem]);
@@ -18,16 +20,41 @@ export default function MyDraw2() {
         setCart(newCart);
     };
 
-    useEffect(() => {
-        console.log(realRef.current);
-        const img = new Image();
+    const getImageFromPath = (path)=>{
+        return new Promise((resolve, reject)=>{
+            
+            if(cache[path]){
+                return resolve(cache[path]); // 回傳已存在的資料
+            }
 
-        img.onload = () => {
-            const ctx = realRef.current.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-        };
-        img.src = "/imgs/dish.jpeg";
-    }, []);
+            const img = new Image();
+            img.onload = () => {
+                resolve(img);
+                setCache({...cache, [path]:img});
+            };
+            img.src = path;
+        });
+    }
+
+    const renderCanvas = async ()=>{
+        const realCtx = realRef.current.getContext("2d");
+        const shadowCtx = shadowRef.current.getContext("2d");
+        const bg = await getImageFromPath('/imgs/dish.jpeg');
+
+        shadowCtx.clearRect(0, 0, shadowRef.current.width, shadowRef.current.height);
+        shadowCtx.drawImage(bg, 0, 0);
+
+        const tmpCart = cart.slice(0,5);
+        for(let i=0; i<tmpCart.length; i++){
+            const img = await getImageFromPath(`/imgs/${tmpCart[i].img}`);
+            shadowCtx.drawImage(img, i*100, i*100);
+        }
+        realCtx.drawImage(shadowRef.current, 0, 0);
+    }
+
+    useEffect(() => {
+        renderCanvas();
+    }, [cart]);
 
     return (
         <div>
@@ -47,6 +74,12 @@ export default function MyDraw2() {
                 );
             })}
             <br />
+            <canvas
+                ref={shadowRef}
+                width="800"
+                height="600"
+                hidden
+            ></canvas>
             <canvas
                 ref={realRef}
                 width="800"
